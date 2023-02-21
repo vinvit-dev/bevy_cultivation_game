@@ -2,6 +2,9 @@ use bevy::prelude::*;
 use bevy::sprite::MaterialMesh2dBundle;
 use crate::components::{Movement, Player, Velocity};
 
+#[derive(Component)]
+pub struct Player;
+
 pub struct PlayerPlugin;
 
 impl Plugin for PlayerPlugin {

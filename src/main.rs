@@ -14,6 +14,11 @@ pub const RESOLUTION: f32 = 16.0 / 9.0;
 const TIME_STEP: f32 = 1. / 60.;
 const BASE_SPEED: f32 = 200.;
 
+#[derive(Resource)]
+pub struct GameResources {
+    InterLightFont: Handle<Font>,
+}
+
 fn main() {
     let height: f32 = 540.0;
     App::new()
@@ -38,13 +43,41 @@ fn main() {
 fn startup_system(
     mut commands: Commands,
     mut egui_settings: ResMut<EguiSettings>,
-    windows: Res<Windows>
+    windows: Res<Windows>,
+    assets_server: Res<AssetServer>
 ) {
     commands.spawn(Camera2dBundle::default());
 
     if let Some(window) = windows.get_primary() {
         egui_settings.scale_factor = 1.0 / window.scale_factor();
     }
+
+    let game_resources = GameResources {
+        InterLightFont: assets_server.load("fonts/Inter-Light.ttf"),
+    };
+
+
+    commands.spawn(
+        TextBundle::from_section(
+            "Test text",
+            TextStyle {
+                font: game_resources.InterLightFont.clone(),
+                font_size: 30.0,
+                color: Color::WHITE,
+            }
+        ).with_style(
+            Style {
+               position_type: PositionType::Absolute,
+                position: UiRect {
+                    bottom: Val::Px(5.0),
+                    left: Val::Px(5.0),
+                    ..default()
+                },
+                ..default()
+            }
+        )
+    );
+    commands.insert_resource(game_resources);
 }
 
 
