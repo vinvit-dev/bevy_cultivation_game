@@ -1,6 +1,8 @@
 use bevy::prelude::*;
 use bevy::render::camera::ScalingMode;
 use bevy::sprite::MaterialMesh2dBundle;
+use bevy_egui::{egui, EguiContext, EguiPlugin, EguiSettings};
+use bevy_inspector_egui::quick::{FilterQueryInspectorPlugin, ResourceInspectorPlugin, StateInspectorPlugin, WorldInspectorPlugin};
 use crate::components::{Movement, Player, Velocity};
 use crate::player::PlayerPlugin;
 
@@ -27,6 +29,7 @@ fn main() {
             ..default()
         }))
         .add_plugin(PlayerPlugin)
+        .add_plugin(WorldInspectorPlugin)
         .add_startup_system(startup_system)
         .add_system(movement_system)
         .run();
@@ -34,8 +37,14 @@ fn main() {
 
 fn startup_system(
     mut commands: Commands,
+    mut egui_settings: ResMut<EguiSettings>,
+    windows: Res<Windows>
 ) {
     commands.spawn(Camera2dBundle::default());
+
+    if let Some(window) = windows.get_primary() {
+        egui_settings.scale_factor = 1.0 / window.scale_factor();
+    }
 }
 
 
