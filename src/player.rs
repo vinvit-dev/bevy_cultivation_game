@@ -1,6 +1,6 @@
 use bevy::prelude::*;
 use bevy::sprite::MaterialMesh2dBundle;
-use crate::components::{Movement, Player, Velocity};
+use crate::components::{Movement, Velocity};
 
 #[derive(Component)]
 pub struct Player;
@@ -19,7 +19,8 @@ fn spawn_player_system(
     mut commands: Commands,
     mut meshes: ResMut<Assets<Mesh>>,
     mut materials: ResMut<Assets<ColorMaterial>>
-) {
+)
+{
     commands.spawn(MaterialMesh2dBundle {
         mesh: meshes.add(Mesh::from(shape::Quad::default())).into(),
         material: materials.add(ColorMaterial::from(Color::rgb(0.7, 0.7, 0.7))),
@@ -37,7 +38,8 @@ fn spawn_player_system(
 fn player_movement_system (
     kb: Res<Input<KeyCode>>,
     mut query: Query<&mut Velocity, With<Player>>
-) {
+)
+{
     if let Ok(mut velocity) = query.get_single_mut() {
         velocity.x = if kb.pressed(KeyCode::A) {
             -1.

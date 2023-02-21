@@ -1,9 +1,7 @@
 use bevy::prelude::*;
-use bevy::render::camera::ScalingMode;
-use bevy::sprite::MaterialMesh2dBundle;
-use bevy_egui::{egui, EguiContext, EguiPlugin, EguiSettings};
-use bevy_inspector_egui::quick::{FilterQueryInspectorPlugin, ResourceInspectorPlugin, StateInspectorPlugin, WorldInspectorPlugin};
-use crate::components::{Movement, Player, Velocity};
+use bevy_egui::EguiSettings;
+use bevy_inspector_egui::quick::WorldInspectorPlugin;
+use crate::components::{Movement, Velocity};
 use crate::player::PlayerPlugin;
 
 mod components;
@@ -16,7 +14,7 @@ const BASE_SPEED: f32 = 200.;
 
 #[derive(Resource)]
 pub struct GameResources {
-    InterLightFont: Handle<Font>,
+    font_inter_light: Handle<Font>,
 }
 
 fn main() {
@@ -45,7 +43,8 @@ fn startup_system(
     mut egui_settings: ResMut<EguiSettings>,
     windows: Res<Windows>,
     assets_server: Res<AssetServer>
-) {
+)
+{
     commands.spawn(Camera2dBundle::default());
 
     if let Some(window) = windows.get_primary() {
@@ -53,7 +52,7 @@ fn startup_system(
     }
 
     let game_resources = GameResources {
-        InterLightFont: assets_server.load("fonts/Inter-Light.ttf"),
+        font_inter_light: assets_server.load("fonts/Inter-Light.ttf"),
     };
 
 
@@ -61,7 +60,7 @@ fn startup_system(
         TextBundle::from_section(
             "Test text",
             TextStyle {
-                font: game_resources.InterLightFont.clone(),
+                font: game_resources.font_inter_light.clone(),
                 font_size: 30.0,
                 color: Color::WHITE,
             }
@@ -83,8 +82,9 @@ fn startup_system(
 
 fn movement_system (
     mut query: Query<(Entity, &Velocity, &mut Transform), With<Movement>>,
-) {
-    for (entity, velocity, mut transform) in query.iter_mut() {
+)
+{
+    for (_entity, velocity, mut transform) in query.iter_mut() {
        let transtaltion = &mut transform.translation;
         transtaltion.x += velocity.x * TIME_STEP * BASE_SPEED;
         transtaltion.y += velocity.y * TIME_STEP * BASE_SPEED;
