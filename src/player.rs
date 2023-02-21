@@ -1,6 +1,6 @@
 use bevy::prelude::*;
 use bevy::sprite::MaterialMesh2dBundle;
-use crate::components::{Movement, Velocity};
+use crate::components::{Movement, SpriteSize, Velocity};
 
 #[derive(Component)]
 pub struct Player;
@@ -25,14 +25,15 @@ fn spawn_player_system(
         mesh: meshes.add(Mesh::from(shape::Quad::default())).into(),
         material: materials.add(ColorMaterial::from(Color::rgb(0.7, 0.7, 0.7))),
         transform: Transform {
-            scale: Vec3::splat(25.),
+            scale: Vec3::splat(25.0),
             ..default()
         },
         ..default()
     })
         .insert(Player)
         .insert(Velocity::default())
-        .insert(Movement);
+        .insert(Movement)
+        .insert(SpriteSize::from(25.0));
 }
 
 fn player_movement_system (
