@@ -1,4 +1,5 @@
 use bevy::prelude::*;
+use bevy::window::PresentMode;
 use bevy_inspector_egui::quick::WorldInspectorPlugin;
 use crate::global_const::RESOLUTION;
 use crate::global_systems::GlobalSystemsPlugin;
@@ -25,6 +26,7 @@ fn main() {
                 height,
                 title: "Cool game".to_string(),
                 resizable: true,
+                present_mode: PresentMode::AutoNoVsync,
                 ..default()
             },
             ..default()
@@ -48,26 +50,6 @@ fn startup_system(
         font_inter_light: assets_server.load("fonts/Inter-Light.ttf"),
     };
 
-    commands.spawn(
-        TextBundle::from_section(
-            "Test text",
-            TextStyle {
-                font: game_resources.font_inter_light.clone(),
-                font_size: 30.0,
-                color: Color::WHITE,
-            }
-        ).with_style(
-            Style {
-               position_type: PositionType::Absolute,
-                position: UiRect {
-                    bottom: Val::Px(5.0),
-                    left: Val::Px(5.0),
-                    ..default()
-                },
-                ..default()
-            }
-        )
-    );
     commands.insert_resource(game_resources);
 }
 

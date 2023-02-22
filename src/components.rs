@@ -32,3 +32,23 @@ impl From<f32> for SpriteSize {
         Self(Vec2::new(value, value))
     }
 }
+
+#[derive(Component)]
+pub struct Qi {
+    pub amount: f32,
+    pub speed: f32,
+    pub max_value: f32,
+}
+
+impl Default for Qi {
+    fn default() -> Self {
+       Self {
+           amount: 0.,
+           speed: 0.1,
+           max_value: 100.0,
+       }
+    }
+}
+
+#[derive(Component)]
+pub struct TextChanges;
