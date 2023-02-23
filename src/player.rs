@@ -122,13 +122,15 @@ fn update_player_status_system (
 
 fn player_qi_collection_system (
     kb: Res<Input<KeyCode>>,
-    mut query: Query<&mut Qi, With<Player>>
+    mut query: Query<(&mut Qi, &Velocity), With<Player>>
 )
 {
-    if let Ok(mut qi) = query.get_single_mut() {
+    if let Ok((mut qi, velocity)) = query.get_single_mut() {
         if kb.pressed(KeyCode::C) {
-            if qi.amount < qi.max_value - qi.speed {
-                qi.amount += qi.speed;
+            if velocity.x == 0. && velocity.y == 0. {
+                if qi.amount < qi.max_value - qi.speed {
+                    qi.amount += qi.speed;
+                }
             }
         }
     }
