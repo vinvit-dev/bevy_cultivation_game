@@ -1,4 +1,5 @@
 use bevy::prelude::*;
+use rand::{Rng, thread_rng};
 
 #[derive(Component)]
 pub struct Velocity {
@@ -47,6 +48,33 @@ impl Default for Qi {
            speed: 0.1,
            max_value: 100.0,
        }
+    }
+}
+
+#[derive(Component)]
+pub struct Talent {
+    pub talent: f32,
+}
+
+impl Default for Talent {
+    fn default() -> Self {
+        let mut rng = thread_rng();
+        Self {
+            talent: rng.gen_range(0..100) as f32 / 10.,
+        }
+    }
+}
+
+#[derive(Component)]
+pub struct Level {
+    pub level: f32
+}
+
+impl Default for Level {
+    fn default() -> Self {
+        Self {
+            level: 0.
+        }
     }
 }
 
